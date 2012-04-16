@@ -3,121 +3,423 @@
 "VERSION:  0.1
 "LICENSE:  MIT
 
-" $I_XXXX : idセレクタ
-" $C_XXXX : classセレクタ
-" $T_XXXX : タグセレクタ
-"
-" TODO: 変更した行にコメントを付ける（検索用）
+if !exists('g:goodbye_jquery_method_names')
+let g:goodbye_jquery_method_names = [
+            \'add',
+            \'addClass',
+            \'after',
+            \'ajax',
+            \'ajaxComplete',
+            \'ajaxError',
+            \'ajaxPrefilter',
+            \'ajaxSend',
+            \'ajaxSetup',
+            \'ajaxStart',
+            \'ajaxStop',
+            \'ajaxSuccess',
+            \'andSelf',
+            \'animate',
+            \'append',
+            \'appendTo',
+            \'attr',
+            \'before',
+            \'bind',
+            \'blur',
+            \'Callbacks',
+            \'disable',
+            \'empty',
+            \'fire',
+            \'fired',
+            \'fireWith',
+            \'has',
+            \'lock',
+            \'locked',
+            \'remove',
+            \'change',
+            \'children',
+            \'clearQueue',
+            \'click',
+            \'clone',
+            \'closest',
+            \'contains',
+            \'undefined',
+            \'contents',
+            \'css',
+            \'data',
+            \'dblclick',
+            \'always',
+            \'done',
+            \'fail',
+            \'isRejected',
+            \'isResolved',
+            \'notify',
+            \'notifyWith',
+            \'pipe',
+            \'progress',
+            \'promise',
+            \'reject',
+            \'rejectWith',
+            \'resolve',
+            \'resolveWith',
+            \'state',
+            \'then',
+            \'delay',
+            \'delegate',
+            \'dequeue',
+            \'detach',
+            \'die',
+            \'each',
+            \'end',
+            \'eq',
+            \'error',
+            \'isDefaultPrevented',
+            \'isImmediatePropagationStopped',
+            \'isPropagationStopped',
+            \'preventDefault',
+            \'stopImmediatePropagation',
+            \'stopPropagation',
+            \'extend',
+            \'fadeIn',
+            \'fadeOut',
+            \'fadeTo',
+            \'fadeToggle',
+            \'filter',
+            \'find',
+            \'first',
+            \'focus',
+            \'focusin',
+            \'focusout',
+            \'get',
+            \'getJSON',
+            \'getScript',
+            \'globalEval',
+            \'grep',
+            \'hasClass',
+            \'hasData',
+            \'height',
+            \'hide',
+            \'holdReady',
+            \'hover',
+            \'html',
+            \'inArray',
+            \'index',
+            \'innerHeight',
+            \'innerWidth',
+            \'insertAfter',
+            \'insertBefore',
+            \'is',
+            \'isArray',
+            \'isEmptyObject',
+            \'isFunction',
+            \'isNumeric',
+            \'isPlainObject',
+            \'isWindow',
+            \'isXMLDoc',
+            \'keydown',
+            \'keypress',
+            \'keyup',
+            \'last',
+            \'live',
+            \'load',
+            \'makeArray',
+            \'map',
+            \'merge',
+            \'mousedown',
+            \'mouseenter',
+            \'mouseleave',
+            \'mousemove',
+            \'mouseout',
+            \'mouseover',
+            \'mouseup',
+            \'next',
+            \'nextAll',
+            \'nextUntil',
+            \'noConflict',
+            \'noop',
+            \'not',
+            \'now',
+            \'off',
+            \'offset',
+            \'offsetParent',
+            \'on',
+            \'one',
+            \'outerHeight',
+            \'outerWidth',
+            \'param',
+            \'parent',
+            \'parents',
+            \'parentsUntil',
+            \'parseXML',
+            \'position',
+            \'post',
+            \'prepend',
+            \'prependTo',
+            \'prev',
+            \'prevAll',
+            \'prevUntil',
+            \'prop',
+            \'proxy',
+            \'pushStack',
+            \'queue',
+            \'ready',
+            \'removeAttr',
+            \'removeClass',
+            \'removeData',
+            \'removeProp',
+            \'replaceAll',
+            \'replaceWith',
+            \'resize',
+            \'scroll',
+            \'scrollLeft',
+            \'scrollTop',
+            \'select',
+            \'serialize',
+            \'serializeArray',
+            \'show',
+            \'siblings',
+            \'size',
+            \'slice',
+            \'slideDown',
+            \'slideToggle',
+            \'slideUp',
+            \'stop',
+            \'sub',
+            \'submit',
+            \'text',
+            \'toArray',
+            \'toggle',
+            \'toggleClass',
+            \'trigger',
+            \'triggerHandler',
+            \'trim',
+            \'type',
+            \'unbind',
+            \'undelegate',
+            \'unique',
+            \'unload',
+            \'unwrap',
+            \'val',
+            \'when',
+            \'width',
+            \'wrap',
+            \'wrapAll',
+            \'wrapInner',
+            \'tmpl',
+            \'tmplItem',
+            \'link',
+            \'template',
+            \'unlink'
+            \]
+endif
+if !exists('g:goodbye_jquery_method_hint')
+let g:goodbye_jquery_method_hint = {
+            \'add':'',
+            \'addClass':'replace "elm.className".',
+            \'after':'',
+            \'ajax':'',
+            \'ajaxComplete':'',
+            \'ajaxError':'',
+            \'ajaxPrefilter':'',
+            \'ajaxSend':'',
+            \'ajaxSetup':'',
+            \'ajaxStart':'',
+            \'ajaxStop':'',
+            \'ajaxSuccess':'',
+            \'andSelf':'',
+            \'animate':'',
+            \'append':'',
+            \'appendTo':'',
+            \'attr':'',
+            \'before':'',
+            \'bind':'',
+            \'blur':'',
+            \'Callbacks':'',
+            \'disable':'replace "elm.disable".',
+            \'empty':'replace "elm.innerHTML = null".',
+            \'fire':'',
+            \'fired':'',
+            \'fireWith':'',
+            \'has':'',
+            \'lock':'',
+            \'locked':'',
+            \'remove':'',
+            \'change':'',
+            \'children':'',
+            \'clearQueue':'',
+            \'click':'replace "elm.onclick = function(){}".',
+            \'clone':'',
+            \'closest':'',
+            \'contains':'',
+            \'undefined':'',
+            \'contents':'',
+            \'css':'replace "elm.style".',
+            \'data':'',
+            \'dblclick':'',
+            \'always':'',
+            \'done':'',
+            \'fail':'',
+            \'isRejected':'',
+            \'isResolved':'',
+            \'notify':'',
+            \'notifyWith':'',
+            \'pipe':'',
+            \'progress':'',
+            \'promise':'',
+            \'reject':'',
+            \'rejectWith':'',
+            \'resolve':'',
+            \'resolveWith':'',
+            \'state':'',
+            \'then':'',
+            \'delay':'replace "setTimeout(function(){}, time)".',
+            \'delegate':'',
+            \'dequeue':'',
+            \'detach':'',
+            \'die':'',
+            \'each':'replace "for(){}".',
+            \'end':'',
+            \'eq':'',
+            \'error':'',
+            \'isDefaultPrevented':'',
+            \'isImmediatePropagationStopped':'',
+            \'isPropagationStopped':'',
+            \'preventDefault':'',
+            \'stopImmediatePropagation':'',
+            \'stopPropagation':'',
+            \'extend':'',
+            \'fadeIn':'',
+            \'fadeOut':'',
+            \'fadeTo':'',
+            \'fadeToggle':'',
+            \'filter':'',
+            \'find':'',
+            \'first':'',
+            \'focus':'',
+            \'focusin':'',
+            \'focusout':'',
+            \'get':'',
+            \'getJSON':'',
+            \'getScript':'',
+            \'globalEval':'',
+            \'grep':'',
+            \'hasClass':'replace "elm.className".',
+            \'hasData':'',
+            \'height':'replace "elm.style.height".',
+            \'hide':'replace "elm.style.display = '."'".'none'."'".'".',
+            \'holdReady':'',
+            \'hover':'',
+            \'html':'replace "elm.innerHTML".',
+            \'inArray':'',
+            \'index':'',
+            \'innerHeight':'replace "elm.style.height + elm.style.paddingTop + elm.style.paddingBottom".',
+            \'innerWidth':'replace "elm.style.width + elm.style.paddingRight + elm.style.paddingLeft".',
+            \'insertAfter':'',
+            \'insertBefore':'',
+            \'is':'',
+            \'isArray':'',
+            \'isEmptyObject':'',
+            \'isFunction':'',
+            \'isNumeric':'',
+            \'isPlainObject':'',
+            \'isWindow':'',
+            \'isXMLDoc':'',
+            \'keydown':'replace "onkeydown = function(){}".',
+            \'keypress':'replace "onkeypress = function(){}".',
+            \'keyup':'replace "onkeyup = function(){}".',
+            \'last':'',
+            \'live':'',
+            \'load':'',
+            \'makeArray':'',
+            \'map':'',
+            \'merge':'',
+            \'mousedown':'replace "onmousedown = function(){}".',
+            \'mouseenter':'replace "onmouseover = function(){}".',
+            \'mouseleave':'replace "onmouseout = function(){}".',
+            \'mousemove':'replace "onmousemove = function(){}".',
+            \'mouseout':'replace "onmouseout = function(){}".',
+            \'mouseover':'replace "onmouseover = function(){}".',
+            \'mouseup':'replace "onmouseup = function(){}".',
+            \'next':'',
+            \'nextAll':'',
+            \'nextUntil':'',
+            \'noConflict':'',
+            \'noop':'',
+            \'not':'',
+            \'now':'',
+            \'off':'',
+            \'offset':'replace "elm.offsetTop or elm.offsetLeft".',
+            \'offsetParent':'',
+            \'on':'',
+            \'one':'',
+            \'outerHeight':'replace "elm.style.height + elm.borderTop + elm.borderBottom + elm.paddingTop + elm.paddingBottom".',
+            \'outerWidth':'replace "elm.style.width + elm.borderRight + elm.borderLeft + elm.paddingRight + elm.paddingLeft".',
+            \'param':'',
+            \'parent':'',
+            \'parents':'',
+            \'parentsUntil':'',
+            \'parseXML':'',
+            \'position':'',
+            \'post':'',
+            \'prepend':'',
+            \'prependTo':'',
+            \'prev':'',
+            \'prevAll':'',
+            \'prevUntil':'',
+            \'prop':'',
+            \'proxy':'',
+            \'pushStack':'',
+            \'queue':'',
+            \'ready':'',
+            \'removeAttr':'',
+            \'removeClass':'replace "elm.className".',
+            \'removeData':'',
+            \'removeProp':'',
+            \'replaceAll':'',
+            \'replaceWith':'',
+            \'resize':'',
+            \'scroll':'replace "elm.onscroll = function(){}".',
+            \'scrollLeft':'',
+            \'scrollTop':'',
+            \'select':'',
+            \'serialize':'',
+            \'serializeArray':'',
+            \'show':'replace "elm.style.display = '."'".'block'."'".'".',
+            \'siblings':'',
+            \'size':'',
+            \'slice':'',
+            \'slideDown':'',
+            \'slideToggle':'',
+            \'slideUp':'',
+            \'stop':'',
+            \'sub':'',
+            \'submit':'',
+            \'text':'',
+            \'toArray':'',
+            \'toggle':'',
+            \'toggleClass':'',
+            \'trigger':'',
+            \'triggerHandler':'',
+            \'trim':'',
+            \'type':'',
+            \'unbind':'',
+            \'undelegate':'',
+            \'unique':'',
+            \'unload':'',
+            \'unwrap':'',
+            \'val':'',
+            \'when':'',
+            \'width':'replace "elm.style.width".',
+            \'wrap':'',
+            \'wrapAll':'',
+            \'wrapInner':'',
+            \'tmpl':'',
+            \'tmplItem':'',
+            \'link':'',
+            \'template':'',
+            \'unlink':''
+            \}
+endif
 
-function! GBJQ()
-    let line_no = 1
-    let line_end = line('w$')
-    let now_no = 1
-
-    while now_no <= line_end
-        let line = matchlist(getline(now_no), '\v^(.{-})(\$I_.{-})(\..{-})\((.{-})\)\s*[;{]$')
-        let ret = ''
-
-        if line != []
-            if line[3] == '.html'
-                call setline(now_no, GB_html(line))
-                let ret = GB_html(line)
-            elseif line[3] == '.attr'
-                let ret = GB_attr(line)
-            elseif line[3] == '.css'
-                let ret = GB_css(line)
-            elseif line[3] == '.val'
-                let ret = GB_val(line)
-            elseif line[3] == '.click'
-                let ret = GB_click(line)
-            endif
-        endif
-
-        if ret != ''
-            call setline(now_no, ret)
-        endif
-
-        let now_no = now_no + 1
-    endwhile
-
-endfunction
-
-function! GB_html(ary)
-    let ary = a:ary
-    let ret = ary[1].ary[2].'[0]'.'.innerHTML'
-
-    if ary[4] != ''
-        let ret = ret.' = '.ary[4]
-    endif
-
-    let ret = ret.';'
-
-    return ret
-endfunction
-
-function! GB_attr(ary)
-    " TODO check
-    let ary = a:ary
-    let ret = ary[1].ary[2].'[0]'
-
-    if ary[4] != ''
-        let at = matchlist(ary[4], '\v(.{-})\s{-},\s*(.*)')
-
-        if at != []
-            let ret = ret.'['.at[1].']'.' = '.at[2]
-        else
-            let ret = ret.'['.ary[4].']'
-        endif
-    endif
-
-    let ret = ret.';'
-
-    return ret
-endfunction
-
-function! GB_css(ary)
-    " TODO cammelcase,check
-
-    let ary = a:ary
-    let ret = ary[1].ary[2].'[0].value'
-
-    if ary[4] != ''
-        let at = GB_comma_split(ary[4])
-
-        if at != []
-            let ret = ret.'['.at[1].']'.' = '.at[2]
-        else
-            let ret = ret.'['.ary[4].']'
-        endif
-    endif
-
-    let ret = ret.';'
-
-    return ret
-endfunction
-
-function! GB_val(ary)
-    let ary = a:ary
-    let ret = ary[1].ary[2].'[0]'.'.value'
-
-    if ary[4] != ''
-        let ret = ret.' = '.ary[4]
-    endif
-
-    let ret = ret.';'
-
-    return ret
-endfunction
-
-function! GB_click(ary)
-    let ary = a:ary
-    let ret = ary[1].ary[2].'[0]'.'.onclick = ('.ary[4].') {'
-
-    echo ary
-
-    return ret
-endfunction
-
-function! GB_comma_split(str)
-    return matchlist(a:str, '\v(.{-})\s{-},\s*(.*)')
-endfunction
+command! GBJQ call gbjq#check()
+command! GBJQIgnore call gbjq#ignore()
+command! GBJQRemember call gbjq#remember()

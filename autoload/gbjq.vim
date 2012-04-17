@@ -14,19 +14,25 @@ function! gbjq#check()
         let line = matchlist(e, '\v\/\/goodbye jQuery\.')
 
         if line == []
-
-            let line = matchlist(e, '\v(\$|jQuery)[^_].*')
+            let line = matchlist(e, '\vjQuery')
 
             if line != []
                 let type = 'Notice'
-                call add(errors, filename.':'.now_no.':['.type.'] '.'use jQuery selector. After correction, please change "$" => "$_"')
+                call add(errors, gbjq#errorline(filename, now_no, type, 'maybe jQuery.'))
+            endif
+
+            let line = matchlist(e, '\v\$\(')
+
+            if line != []
+                let type = 'Notice'
+                call add(errors, gbjq#errorline(filename, now_no, type, 'maybe jQuery selector. replace "document.querySelector()" or "document.querySelectorAll()".'))
             endif
 
             let line = matchlist(e, '\v\.('.join(g:goodbye_jquery_method_names, '|').')\(')
 
             if line != []
                 let type = 'Notice'
-                call add(errors, filename.':'.now_no.':['.type.'] '.'use jQuery method "'.line[1].'". '.g:goodbye_jquery_method_hint[line[1]])
+                call add(errors, gbjq#errorline(filename, now_no, type, 'maybe "jQuery.'.line[1].'()". '.g:goodbye_jquery_method_hint[line[1]]))
             endif
 
         endif
@@ -37,6 +43,10 @@ function! gbjq#check()
     setlocal errorformat=%f:%l:%m
     cgetexpr join(errors, "\n")
     copen
+endfunction
+
+function! gbjq#errorline(file, line, type, txt)
+    return a:file.':'.a:line.':[ '.a:type.' ] '.a:txt
 endfunction
 
 function! gbjq#ignore()

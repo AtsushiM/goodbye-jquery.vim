@@ -28,7 +28,7 @@ function! gbjq#check()
                 call add(errors, gbjq#errorline(filename, now_no, type, 'maybe jQuery selector. replace "document.querySelector()" or "document.querySelectorAll()".'))
             endif
 
-            let line = matchlist(e, '\v\.('.join(g:goodbye_jquery_method_names, '|').')\(')
+            let line = matchlist(e, '\v\C\.('.join(g:goodbye_jquery_method_names, '|').')\(')
 
             if line != []
                 let type = 'Notice'
@@ -40,9 +40,14 @@ function! gbjq#check()
         let now_no = now_no + 1
     endwhile
 
-    setlocal errorformat=%f:%l:%m
-    cgetexpr join(errors, "\n")
-    copen
+    if len(errors) != 0
+        setlocal errorformat=%f:%l:%m
+        cgetexpr join(errors, "\n")
+        copen
+    else
+        cclose
+        echo 'goodbye jQuery!'
+    endif
 endfunction
 
 function! gbjq#errorline(file, line, type, txt)

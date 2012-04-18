@@ -3,6 +3,9 @@
 "VERSION:  0.1
 "LICENSE:  MIT
 
+let s:save_cpo = &cpo
+set cpo&vim
+
 if !exists('g:goodbye_jquery_method_names')
 let g:goodbye_jquery_method_names = [
             \'add',
@@ -498,3 +501,5 @@ endfunction
 function! gbjq#remember()
     call setline('.', join(split(getline('.'), ' //goodbye jQuery.'), ''))
 endfunction
+
+let &cpo = s:save_cpo

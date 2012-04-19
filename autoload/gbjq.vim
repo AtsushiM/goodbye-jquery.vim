@@ -20,14 +20,14 @@ let g:goodbye_jquery_method_hint = {
             \'ajaxStart':'',
             \'ajaxStop':'',
             \'ajaxSuccess':'',
-            \'andSelf':'',
-            \'animate':'',
+            \'andSelf':'replace "document.querySelector()" or "document.querySelectorAll()".',
+            \'animate':'repalce CSS3 trasition or "setTimeout()" animation.',
             \'append':'replace "elm.appendChild()" or "elm.insertBefore()".',
             \'appendTo':'replace "elm.appendChild()" or "elm.insertBefore()".',
             \'attr':'',
             \'before':'replace "elm.appendChild()" or "elm.insertBefore()".',
             \'bind':'',
-            \'blur':'',
+            \'blur':'replace "elm.onblur = function(){}".',
             \'Callbacks':'',
             \'disable':'replace "elm.disable".',
             \'empty':'replace "elm.innerHTML = null".',
@@ -38,7 +38,7 @@ let g:goodbye_jquery_method_hint = {
             \'locked':'',
             \'remove':'',
             \'change':'replace "elm.onchange = function(){}".',
-            \'children':'',
+            \'children':'replace "document.querySelector()" or "document.querySelectorAll()".',
             \'clearQueue':'',
             \'click':'replace "elm.onclick = function(){}".',
             \'clone':'',
@@ -213,10 +213,12 @@ let g:goodbye_jquery_method_hint = {
             \}
 endif
 
-let s:goodbye_jquery_method_names = []
+let s:temp = []
 for [name, exp] in items(g:goodbye_jquery_method_hint)
-    call add(s:goodbye_jquery_method_names, name)
+    call add(s:temp, name)
 endfor
+let s:goodbye_jquery_method_names = join(s:temp, '|')
+unlet s:temp
 
 function! gbjq#check()
     let now_no = 1
@@ -261,7 +263,7 @@ function! gbjq#check()
             let e = o
             let end = 0
             while end != 1
-                let line = matchlist(e, '\v\C\.('.join(s:goodbye_jquery_method_names, '|').')\((.*)')
+                let line = matchlist(e, '\v\C\.('.s:goodbye_jquery_method_names.')\((.*)')
 
                 if line != []
                     call add(errors, gbjq#errorline(filename, now_no, type, 'maybe "jQuery.'.line[1].'()". '.g:goodbye_jquery_method_hint[line[1]]))
@@ -287,7 +289,8 @@ function! gbjq#check()
 endfunction
 
 function! gbjq#errorline(file, line, type, txt)
-    return a:file.':'.a:line.':[ '.a:type.' ] '.a:txt
+    " return a:file.':'.a:line.':[ '.a:type.' ] '.a:txt
+    return a:file.':'.a:line.':'.a:txt
 endfunction
 
 function! gbjq#ignore()
